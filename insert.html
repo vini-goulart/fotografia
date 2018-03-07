@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' lang='pt-BR'>
+<head>
+<meta http-equiv='Content-type' content='text/html; charset=UTF-8' />
+<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" >
+<link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Roboto:300,400' />
+<link rel='stylesheet' type='text/css' href='DataTables/datatables.css'/>
+<link rel='stylesheet' type='text/css' href='DataTables/style.css'/>
+ 	<style type='text/css'>
+	h1 { font-family: 'Roboto', sans-serif; font-weight: 400; }
+	p { font-family: 'Roboto', sans-serif; font-weight: 300; }
+	input[type='number'] {
+	   width:50px;
+	}
+	</style>
+<script type='text/javascript' src='http://code.jquery.com/jquery-latest.js'></script>
+<script type='text/javascript' src='DataTables/datatables.js'></script>
+	<script type='text/javascript'>
+	$(document).ready(function(){
+	    $('#resultado').DataTable( {
+	    } );
+	} );
+	$(document).ready(function(){
+	    $('#resultado2').DataTable( {
+	    } );
+	} );
+	</script>
+</head>
+<body>
+<center><div id='corpo'>
+<h1>Inserir Job</h1>
+<form action='insert_job.php' method='post'>
+<table id='resultado' class='compact nowrap stripe hover row-border order-column' cellspacing='0' width='100%'>
+	<tr>
+		<th scope='col'>Agência</th>
+		<th scope='col'>Cliente</th>
+		<th scope='col'>Campanha</th>
+		<th scope='col'>Tipo do Job</th>
+		<th scope='col'>Data do Job</th>
+		<th scope='col'>Local</th>
+		<th scope='col'>Status</th>
+		<th scope='col'>Data Recebimento</th>
+		<th scope='col'>Clicado por</th>
+	</tr>
+	<tr>
+		<td><input type='text' name='agencia' size='20' placeholder='Ex.: Calia' /></td>
+		<td><input type='text' name='cliente' size='20' placeholder='Ex.: Ministério da Saúde' required /></td>
+		<td><input type='text' name='campanha' size='20' placeholder='Ex.: Aids 2018' required /></td>
+		<td>
+		<select name='tipo_job'>
+			<option disabled selected> -- Selecionar -- </option>
+			<option value='Job'>Job</option>
+			<option value='Concorrência'>Concorrência</option>
+			<option value='Subcontratação'>Subcontratação</option>
+			<option value='Reutilização'>Reutilização</option>
+			<option value='Fantasma'>Fantasma</option>
+	    </select>
+	    </td>
+		<td><input type='date' name='data_job' size='13' /></td>
+		<td>
+		<select name='local_job'>
+			<option disabled selected> -- Selecionar -- </option>
+			<option value='Estúdio Magneto'>Estúdio Magneto</option>
+			<option value='Estúdio Externo'>Estúdio Externo</option>
+			<option value='Locação Externa'>Locação Externa</option>
+			<option value='Viagem'>Viagem</option>
+			<option value='Vários'>Vários</option>
+	    </select>
+	    </td>
+	    <td>
+		<select name='status_job' id='status_job' onChange='myNewFunction(this);' >
+			<option disabled selected> -- Selecionar -- </option>
+			<option value='Orçamento Enviado'>Orçamento Enviado</option>
+			<option value='Orçamento Aprovado'>Orçamento Aprovado</option>
+			<option value='Entregue'>Entregue</option>
+			<option value='Faturado'>Faturado</option>
+			<option value='Recebido'>Recebido</option>
+	    </select>
+	    </td>
+	    <td><input type='date' id='data_recebimento' name='data_recebimento' size='13' placeholder='YYYY-MM-DD' disabled='true' /></td>
+	    <script>
+	    	function myNewFunction(element) {
+			    var sel = document.getElementById('status_job');
+				var text= sel.options[sel.selectedIndex].text;
+				if (text == 'Recebido') {
+					$('#data_recebimento').prop('disabled', false);
+				}
+			}
+		</script>
+	    <td>
+		<select name='clicado_por'>
+			<option disabled selected> -- Selecionar -- </option>
+			<option value='Vini Goulart'>Vini Goulart</option>
+			<option value='Felipe Barreira'>Felipe Barreira</option>
+			<option value='Assistente'>Assistente</option>
+			<option value='Daniel Madsen'>Daniel Madsen</option>
+			<option value='Hugo Santarém'>Hugo Santarém</option>
+			<option value='Outros'>Outros</option>
+	    </select>
+	    </td>
+	</tr>
+	<tr>
+		<th scope='col'>Nº da Proposta</th>
+		<th scope='col'>Data da Proposta</th>
+		<th scope='col'>Qtd. Itens da Proposta</th>
+		<th scope='col'>Valor Total</th>
+		<th scope='col'>BV</th>
+		<th scope='col'>Com Nota?</th>
+		<th scope='col'>Imposto</th>
+		<th scope='col'>Previsão</th>
+		<th scope='col'>Operação</th>
+    </tr>
+	<tr>
+	    <td><input type='text' name='n_proposta' placeholder='Ex.: MX0000000' /></td>
+	    <td><input type='date' name='data_proposta' size='13' /></td>
+	    <td><input type='number' name='n_de_itens' min='1' placeholder='0' /></td>
+	    <td>R$: <input type='text' name='valor_total_job' size='10' placeholder='0,00' /></td>
+		<td><input type='number' name='bv' maxlength='2' size='20' placeholder='0' />%</td>
+		<td>
+			<input name='emitiu_nota' id='com_nota' type='radio' value=1 />  Sim </BR>
+			<input name='emitiu_nota' id='sem_nota' type='radio' value=0 checked='checked'/>  Não
+		</td>
+		<td><input type='number' name='imposto' id='imposto' size='20' maxlength='2' placeholder='0' disabled='true' />%</td>
+		<td><input type='number' id='previsao_pagamento' name='previsao_pagamento' min='1' max='90' placeholder='0' /> dias</td>
+		<script>
+			$('#sem_nota').change(function() {
+			  $('#imposto').prop('disabled', true);
+			});
+			$('#com_nota').change(function() {
+		  	  $('#imposto').prop('disabled', false);
+			});
+		</script>
+	    <td><button type='submit' name='incluir_cache'>Incluir</button></td>
+	</tr>
+</table>
+</form>
+<hr />
+<h1>Inserir Fornecedor</h1>
+<form action='insert_fornecedor.php' method='post'>
+<table id='resultado2' class='compact nowrap stripe hover row-border order-column' cellspacing='0' width='100%'>
+	<tr>
+		<th scope='col'>Nome Artístico</th>
+		<th scope='col'>Nome Completo</th>
+		<th scope='col'>Especialidade</th>
+		<th scope='col'>Data de Nasc.</th>
+		<th scope='col'>Sexo</th>
+		<th scope='col'>CPF</th>
+		<th scope='col'>E-mail</th>
+	</tr>
+	<tr>
+		<td><input type='text' name='nome_artistico' size='20' placeholder='Ex.: Vini Goulart' /></td>
+		<td><input type='text' name='nome_completo' size='20' placeholder='Ex.: Vinicius Goulart Batista' /></td>
+		<td>
+			<select name='especialidade'>
+				<option disabled selected> -- Selecionar -- </option>
+				<option value='Maquiagem'>Maquiagem</option>
+				<option value='Prod. Figurino'>Prod. Figurino</option>
+				<option value='Prod. Objetos'>Prod. Objetos</option>
+				<option value='Prod. Elenco'>Prod. Elenco</option>
+				<option value='Prod. Executiva'>Prod. Executiva</option>
+				<option value='Fotografia'>Fotografia</option>
+		    </select>
+	    </td>
+		<td><input type='date' name='data_nasc_forn' size='13' /></td>
+		<td>
+			<input name='sexo' id='masculino' type='radio' value='M' />  Masculino </BR>
+			<input name='sexo' id='feminino' type='radio' value='F' checked='checked'/>  Feminino
+		</td>
+		<td><input type='text' name='cpf' size='20' placeholder='Ex.: 000.000.000-00' /></td>
+		<td><input type='text' name='email' size='20' placeholder='Ex.: nome@servidor.com.br' /></td>
+	</tr>
+	<tr>
+		<th scope='col'>Celular</th>
+		<th scope='col'>Nº do Banco</th>
+		<th scope='col'>Nome do Banco</th>
+		<th scope='col'>Nº Agência - DV</th>
+		<th scope='col'>Nº Conta - DV</th>
+		<th scope='col'>Tipo Conta</th>
+		<th scope='col'>Operação</th>
+    </tr>
+	<tr>
+		<td><input type='text' name='ddd1' maxlength='2' size='5' placeholder='00' /> <input type='text' name='celular' size='10' placeholder='00000-0000' /></td>
+		<td><input type='text' name='n_banco' size='10' placeholder='Ex.: 001' /></td>
+		<td><input type='text' name='nome_banco' size='20' placeholder='Ex.: Banco do Brasil' /></td>
+		<td><input type='text' name='agencia_bancaria' size='10' placeholder='0000' /> - <input type='text' name='dv_agencia_bancaria' size='5' placeholder='0' /></td>
+		<td><input type='text' name='conta_bancaria' size='10' placeholder='000000000' /> - <input type='text' name='dv_conta_bancaria' size='5' placeholder='0' /></td>
+		<td>
+			<select name='tipo_conta_bancaria'>
+				<option disabled selected> -- Selecionar -- </option>
+				<option value='Conta Corrente'>Conta Corrente</option>
+				<option value='Conta Poupança'>Conta Poupança</option>
+				<option value='Conta Conjunta'>Conta Conjunta</option>
+		    </select>
+	    </td>
+	    <td><button type='submit' name='incluir_cache'>Incluir</button></td>
+	</tr>
+</table>
+</form>
+</div></center>
+</body>
+</html>
