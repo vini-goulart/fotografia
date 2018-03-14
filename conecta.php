@@ -20,8 +20,7 @@ $success = mysqli_real_connect(
    $host,
    $user,
    $password,
-   $db,
-   $port
+   $db
 );
 mysqli_set_charset($link,"utf8");
 ?>

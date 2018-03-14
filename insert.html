@@ -28,38 +28,38 @@
 </head>
 <body>
 <center><div id='corpo'>
-<h1>Inserir Job</h1>
+<h1>Criar Job</h1>
 <form action='insert_job.php' method='post'>
 <table id='resultado' class='compact nowrap stripe hover row-border order-column' cellspacing='0' width='100%'>
 	<tr>
+		<th scope='col'>Tipo do Job</th>
 		<th scope='col'>Agência</th>
 		<th scope='col'>Cliente</th>
 		<th scope='col'>Campanha</th>
-		<th scope='col'>Tipo do Job</th>
+		
 		<th scope='col'>Data do Job</th>
-		<th scope='col'>Local</th>
-		<th scope='col'>Status</th>
-		<th scope='col'>Data Recebimento</th>
-		<th scope='col'>Clicado por</th>
+		<!-- <th scope='col'>Local</th> -->
+		<!-- <th scope='col'>Status</th> -->
+		<!-- <th scope='col'>Data Recebimento</th> -->
+		<!-- <th scope='col'>Clicado por</th> -->
+		<th scope='col'>Operação</th>
 	</tr>
 	<tr>
-		<td><input type='text' name='agencia' size='20' placeholder='Ex.: Calia' /></td>
-		<td><input type='text' name='cliente' size='20' placeholder='Ex.: Ministério da Saúde' required /></td>
-		<td><input type='text' name='campanha' size='20' placeholder='Ex.: Aids 2018' required /></td>
-		<td>
-		<select name='tipo_job'>
+		<td><select name='tipo_job'>
 			<option disabled selected> -- Selecionar -- </option>
 			<option value='Job'>Job</option>
 			<option value='Concorrência'>Concorrência</option>
 			<option value='Subcontratação'>Subcontratação</option>
 			<option value='Reutilização'>Reutilização</option>
 			<option value='Fantasma'>Fantasma</option>
-	    </select>
-	    </td>
+	    </select></td>
+		<td><input type='text' name='agencia' size='20' placeholder='Ex.: Calia' /></td>
+		<td><input type='text' name='cliente' size='20' placeholder='Ex.: Ministério da Saúde' required /></td>
+		<td><input type='text' name='campanha' size='20' placeholder='Ex.: Aids 2018' required /></td>
 		<td><input type='date' name='data_job' size='13' /></td>
-		<td>
+		<!-- <td>
 		<select name='local_job'>
-			<option disabled selected> -- Selecionar -- </option>
+			<option disabled selected> - Selecionar - </option>
 			<option value='Estúdio Magneto'>Estúdio Magneto</option>
 			<option value='Estúdio Externo'>Estúdio Externo</option>
 			<option value='Locação Externa'>Locação Externa</option>
@@ -69,7 +69,7 @@
 	    </td>
 	    <td>
 		<select name='status_job' id='status_job' onChange='myNewFunction(this);' >
-			<option disabled selected> -- Selecionar -- </option>
+			<option disabled selected> - Selecionar - </option>
 			<option value='Orçamento Enviado'>Orçamento Enviado</option>
 			<option value='Orçamento Aprovado'>Orçamento Aprovado</option>
 			<option value='Entregue'>Entregue</option>
@@ -89,7 +89,7 @@
 		</script>
 	    <td>
 		<select name='clicado_por'>
-			<option disabled selected> -- Selecionar -- </option>
+			<option disabled selected> - Selecionar - </option>
 			<option value='Vini Goulart'>Vini Goulart</option>
 			<option value='Felipe Barreira'>Felipe Barreira</option>
 			<option value='Assistente'>Assistente</option>
@@ -97,7 +97,8 @@
 			<option value='Hugo Santarém'>Hugo Santarém</option>
 			<option value='Outros'>Outros</option>
 	    </select>
-	    </td>
+	    </td> -->
+	    <td><button type='submit' name='incluir_cache'>Incluir</button></td>
 	</tr>
 	<tr>
 		<th scope='col'>Nº da Proposta</th>
@@ -105,37 +106,36 @@
 		<th scope='col'>Qtd. Itens da Proposta</th>
 		<th scope='col'>Valor Total</th>
 		<th scope='col'>BV</th>
-		<th scope='col'>Com Nota?</th>
+		<!-- <th scope='col'>Com Nota?</th> -->
 		<th scope='col'>Imposto</th>
-		<th scope='col'>Previsão</th>
-		<th scope='col'>Operação</th>
+		<!-- <th scope='col'>Previsão</th> -->
     </tr>
 	<tr>
-	    <td><input type='text' name='n_proposta' placeholder='Ex.: MX0000000' /></td>
+		<td><input type='text' name='n_proposta' placeholder='Ex.: MX0000000' /></td>
 	    <td><input type='date' name='data_proposta' size='13' /></td>
 	    <td><input type='number' name='n_de_itens' min='1' placeholder='0' /></td>
 	    <td>R$: <input type='text' name='valor_total_job' size='10' placeholder='0,00' /></td>
 		<td><input type='number' name='bv' maxlength='2' size='20' placeholder='0' />%</td>
-		<td>
+		<!-- <td>
 			<input name='emitiu_nota' id='com_nota' type='radio' value=1 />  Sim </BR>
 			<input name='emitiu_nota' id='sem_nota' type='radio' value=0 checked='checked'/>  Não
-		</td>
-		<td><input type='number' name='imposto' id='imposto' size='20' maxlength='2' placeholder='0' disabled='true' />%</td>
-		<td><input type='number' id='previsao_pagamento' name='previsao_pagamento' min='1' max='90' placeholder='0' /> dias</td>
-		<script>
+		</td> -->
+		<td><input type='number' name='imposto' id='imposto' size='20' maxlength='2' placeholder='0' />%</td>
+		<!-- <td><input type='number' id='previsao_pagamento' name='previsao_pagamento' min='1' max='90' placeholder='0' /> dias</td> -->
+<!-- 		<script>
 			$('#sem_nota').change(function() {
 			  $('#imposto').prop('disabled', true);
 			});
 			$('#com_nota').change(function() {
 		  	  $('#imposto').prop('disabled', false);
 			});
-		</script>
-	    <td><button type='submit' name='incluir_cache'>Incluir</button></td>
+		</script> -->
+	    
 	</tr>
 </table>
 </form>
 <hr />
-<h1>Inserir Fornecedor</h1>
+<h1>Cadastrar Fornecedor</h1>
 <form action='insert_fornecedor.php' method='post'>
 <table id='resultado2' class='compact nowrap stripe hover row-border order-column' cellspacing='0' width='100%'>
 	<tr>
@@ -159,6 +159,11 @@
 				<option value='Prod. Elenco'>Prod. Elenco</option>
 				<option value='Prod. Executiva'>Prod. Executiva</option>
 				<option value='Fotografia'>Fotografia</option>
+				<option value='Ilustrador'>Ilustrador</option>
+				<option value='Assistente'>Assistente</option>
+				<option value='Tratamento de Imagem'>Tratamento de Imagem</option>
+				<option value='Agência de Modelo'>Agência de Modelo</option>
+				<option value='Camareira'>Camareira</option>
 		    </select>
 	    </td>
 		<td><input type='date' name='data_nasc_forn' size='13' /></td>
@@ -188,8 +193,10 @@
 			<select name='tipo_conta_bancaria'>
 				<option disabled selected> -- Selecionar -- </option>
 				<option value='Conta Corrente'>Conta Corrente</option>
-				<option value='Conta Poupança'>Conta Poupança</option>
 				<option value='Conta Conjunta'>Conta Conjunta</option>
+				<option value='Conta Poupança'>Conta Poupança</option>
+				<option value='Conta Conjunta'>Conta Investimento</option>
+				<option value='Conta Conjunta'>Conta Salário</option>
 		    </select>
 	    </td>
 	    <td><button type='submit' name='incluir_cache'>Incluir</button></td>
