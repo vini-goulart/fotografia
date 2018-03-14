@@ -71,7 +71,7 @@ $nome_tabela = "jobs";
 			<th scope='col' class='color' height='30'>Negociado por</th>
 		</tr>
 		<?php
-		$sql = "SELECT * FROM jobs WHERE data_job = '$data_job' AND cliente = '$cliente' AND campanha = '$campanha' AND (valor_negociado IS NULL OR valor_negociado > 0) ORDER BY departamento ASC";
+		$sql = "SELECT * FROM jobs WHERE data_job = '$data_job' AND cliente = '$cliente' AND campanha = '$campanha' AND empresa_fornecedor != 'Magneto Fotografia' ORDER BY departamento ASC";
 		$result = mysqli_query($link, $sql);
 		if (!$result) { die("Database query failed: " . mysqli_error()); }
 			$custo = 0;

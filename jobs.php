@@ -103,7 +103,8 @@ echo "				<script type='text/javascript'>
 					</script>
 				</tr>";
 }
-	$result2 = mysqli_query($link, "SELECT SUM(valor_unitario * qtd) AS bruto, SUM(valor_unitario * qtd * (1-(COALESCE(bv,0) + COALESCE(imposto,0))/100)) - COALESCE(SUM(valor_negociado * qtd),0) as liquido FROM jobs");
+	$result2 = mysqli_query($link, "SELECT valor_total_proposta AS bruto, SUM(valor_unitario * qtd * (1-(COALESCE(bv,0) + COALESCE(imposto,0))/100)) - COALESCE(SUM(valor_negociado * qtd),0) as liquido FROM jobs WHERE empresa_fornecedor = 'Magneto Fotografia'");
+	// SELECT SUM(liquido) FROM (SELECT SUM(valor_unitario * qtd * (1-(COALESCE(bv,0) + COALESCE(imposto,0))/100)) - COALESCE(SUM(valor_negociado * qtd),0) as liquido FROM jobs WHERE empresa_fornecedor = 'Magneto Fotografia' UNION ALL SELECT SUM(valor_unitario * qtd * COALESCE(bv,0)/100) as liquido FROM jobs WHERE empresa_fornecedor != 'Magneto Fotografia') T1
 		if (!$result2) {
 		 die("Database query failed: " . mysqli_error());
 }

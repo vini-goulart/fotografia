@@ -72,6 +72,7 @@ if(!session_id()) {
 			<th scope='col' class='color' height='30'>Qtd.</th>
 			<th scope='col' class='color' height='30'>Valor Unitário</th>
 			<th scope='col' class='color' height='30'>Subtotal</th>
+			<th scope='col' class='color' height='30'>Fornecedor</th>
 		</tr>
 		<?php
 		if ($n_de_itens > 1) {
@@ -145,6 +146,10 @@ if(!session_id()) {
 				<td><br /><input type='number' name='quantidade".$part."' class='qtd' id='quantidade".$part."' size='5' value='1' required /></td>
 				<td><br />R$: <input type='number' name='valor_unit".$part."' id='valor_unit".$part."' size='10' placeholder='0,00' required /></td>
 				<td><br />R$: <span class='subtotal' id='subtotal".$part."'>0</span></td>
+				<td><BR /><select class='empresa_fornecedor' name='empresa_fornecedor".$part."' id='empresa_fornecedor".$part."'>
+					<option value='Magneto Fotografia' selected>Magneto Fotografia</option>
+					<option value='Externo'>Externo</option>
+			    </select></td>
 				</tr>
 				";
 				$part++;
@@ -211,6 +216,10 @@ if(!session_id()) {
 				<td><br /><input type='number' name='quantidade1' class='qtd' id='quantidade1' size='5' value='1' required /></td>
 				<td><br />R$: <input type='number' name='valor_unit1' id='valor_unit1' size='10' placeholder='0,00' required /></td>
 				<td><br />R$: <span class='subtotal' id='subtotal1'>0</span></td>
+				<td><BR /><select class='empresa_fornecedor' name='empresa_fornecedor1' id='empresa_fornecedor1'>
+					<option value='Magneto Fotografia' selected>Magneto Fotografia</option>
+					<option value='Externo'>Externo</option>
+			    </select></td>
 				</tr>
 			";
 		}
@@ -222,7 +231,7 @@ echo"
 	<p class='bold blue'>Saldo restante R$: <span id='saldo_restante'>".$valor_total_job_format."</span></p>
 	<p class='color totais' height='30'>Total R$: <span id='custo_total'>0,00</span></p>
 	<center>
-	<p><button type='submit' name='incluir_cache'>Próximo Passo >></button></p>
+	<p><button type='submit' name='incluir_cache'>Incluir</button></p>
 </form>
 </center>
 </body>
