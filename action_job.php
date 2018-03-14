@@ -57,7 +57,7 @@ $nome_tabela = "jobs";
 	</head>
 	<body>
 	<center>
-	<h1>Incluir Fornecedores</h1>
+	<h1>Editar Fornecedores</h1>
 	<br />
 	<form action='insert_fornecedores.php' method='post'>
 	<table id='resultado' class='compact nowrap stripe hover row-border order-column' cellspacing='0' width='100%'>
@@ -71,34 +71,35 @@ $nome_tabela = "jobs";
 			<th scope='col' class='color' height='30'>Negociado por</th>
 		</tr>
 		<?php
-		$sql = "SELECT * FROM jobs WHERE data_job = '$data_job' AND cliente = '$cliente' AND campanha = '$campanha' ORDER BY departamento ASC";
+		$sql = "SELECT * FROM jobs WHERE data_job = '$data_job' AND cliente = '$cliente' AND campanha = '$campanha' AND (valor_negociado IS NULL OR valor_negociado > 0) ORDER BY departamento ASC";
 		$result = mysqli_query($link, $sql);
 		if (!$result) { die("Database query failed: " . mysqli_error()); }
-			$lucro = 0;
 			$custo = 0;
 		while ($row = mysqli_fetch_array($result)) {
+			if (!isset($lucro)) {
+				$lucro = $row['valor_total_proposta'];
+			}
 			$part = 1;
 			if (empty($row['bv'])){$bv = 0;} else {$bv = $row['bv'];}
 			if (empty($row['imposto'])){$imposto = 0;} else {$imposto = $row['imposto'];}
 			$comissao_magneto = $bv;
 			$qtd = $row['qtd'];
+			if (empty($row['valor_negociado'])){${'negociado'.$part} = $row['valor_unitario'] * (1-((int)$bv+(int)$imposto+(int)$comissao_magneto)/100) * (int)$qtd;} else {${'negociado'.$part} = $row['valor_negociado'];}
 			$valor = $row['valor_unitario'] * (1-((int)$bv+(int)$imposto+(int)$comissao_magneto)/100);
-			$negociado = $row['valor_unitario'] * (1-((int)$bv+(int)$imposto+(int)$comissao_magneto)/100) * (int)$qtd;
-			$custo += $negociado;
-			$lucro -= $negociado;
+			$custo += ${'negociado'.$part};
+			$lucro -= ${'negociado'.$part};
 			$valor_format = number_format($valor,2,",","");
 			echo "<tr>";
 			echo "<td><BR />".$row['departamento']."</td>";
 			echo "<td><BR />".$row['descritivo']."</td>";
 			echo "<td><BR />".$row['qtd']."</td>";
 			echo "<td><BR />R$: ".$valor_format."</td>";
-			echo "<td><BR />R$: <input type='number' class='valor' name='valor_negociado".$part."' id='valor_negociado".$part."' size='5' value='$negociado' required /></td>";
+			echo "<td><BR />R$: <input type='number' class='valor' name='valor_negociado".$part."' id='valor_negociado".$part."' size='5' value='".${'negociado'.$part}."' required /></td>";
 			echo "<td><BR /><input type='text' class='fornecedor' name='fornecedor".$part."' id='fornecedor".$part."' size='20' placeholder='Preencher' required /></td>";
 			echo "<td><BR /><input type='text' class='negociador' name='negociador".$part."' id='negociador".$part."' size='20' placeholder='Preencher' required /></td>";
 			echo "</tr>";
 			$part++;
 		}
-		$lucro += $row['valor_total_proposta'];
 		$lucro -= $row['valor_total_proposta'] * ($bv+$imposto)/100;
 		$custo += $row['valor_total_proposta'] * ($bv+$imposto)/100;
 	
@@ -109,7 +110,7 @@ echo"
 	<p class='bold blue'>Lucro R$: <span id='lucro'>".$lucro."</span></p>
 	<p class='color totais' height='30'>Custo R$: <span id='custo_total'>".$custo."</span></p>
 	<center>
-	<p><button type='submit' name='finalizar_inclusao'>Finalizar Inclusão</button></p>
+	<p><button type='submit' name='finalizar_inclusao'>Salvar Edição</button></p>
 </form>
 </center>
 </body>
