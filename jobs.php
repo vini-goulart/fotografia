@@ -43,7 +43,7 @@ $(document).ready(function(){
 	<h1>Jobs</h1>
 <?php
 	// $hoje = date('Y-m-d', time());
-	$result = mysqli_query($link, "SELECT *, SUM(valor_unitario * qtd) - COALESCE(SUM(valor_negociado * qtd),0) as liquido, COALESCE(bv,0) AS bv2, COALESCE(imposto,0) AS imposto2 FROM jobs GROUP BY data_job, campanha, cliente ORDER BY data_job DESC");
+	$result = mysqli_query($link, "SELECT id, tipo_job, data_job, agencia, cliente, campanha, n_da_proposta, valor_total_proposta, COALESCE(bv,0) AS bv, COALESCE(imposto,0) AS imposto, status_job, SUM(bruto) AS bruto, SUM(liquido) AS liquido FROM (SELECT id, tipo_job, data_job, agencia, cliente, campanha, n_da_proposta, valor_total_proposta, bv, imposto, status_job, SUM(valor_unitario * qtd * (1-(COALESCE(bv,0) + COALESCE(imposto,0))/100)) as liquido, SUM(valor_unitario * qtd) AS bruto FROM jobs WHERE empresa_fornecedor = 'Magneto Fotografia' GROUP BY data_job, cliente, campanha UNION ALL SELECT id, tipo_job, data_job, agencia, cliente, campanha, n_da_proposta, valor_total_proposta, bv, imposto, status_job, (IF(valor_negociado > 0, SUM(valor_unitario * qtd * (1-(COALESCE(bv,0) + COALESCE(imposto,0))/100)) - COALESCE(SUM(valor_negociado),0), SUM(valor_unitario * qtd) * COALESCE(bv,0)/100)) as liquido, SUM(valor_unitario * qtd) AS bruto FROM jobs WHERE empresa_fornecedor != 'Magneto Fotografia' GROUP BY data_job, cliente, campanha) T1 GROUP BY data_job, cliente, campanha ORDER BY data_job DESC");
 		if (!$result) { die("Database query failed: " . mysqli_error()); }
 ?>
 	<table id='resultado' class='compact nowrap stripe hover row-border order-column' cellspacing='0' width='100%'>
@@ -55,6 +55,7 @@ $(document).ready(function(){
 				<th>Nº da Proposta</th>
 				<th>Bruto</th>
 				<th>Líquido</th>
+				<th>Margem</th>
 				<th>BV</th>
 				<th>Status</th>
 	  			<th>Operação</th>
@@ -71,10 +72,11 @@ $(document).ready(function(){
 		${'campanha'.$id} 		= $row['campanha'];
 		${'n_da_proposta'.$id} 	= $row['n_da_proposta'];
 		${'bruto'.$id} 			= number_format($row['valor_total_proposta'],2,",",".");
-		${'bv'.$id} 			= $row['bv2'];
-		${'imposto'.$id} 		= $row['imposto2'];
-		${'liquido'.$id} 		= $row['liquido'] * (1-(${'bv'.$id}+${'imposto'.$id})/100);
+		${'bv'.$id} 			= $row['bv'];
+		${'imposto'.$id} 		= $row['imposto'];
+		${'liquido'.$id} 		= $row['liquido'];
 		${'liquido'.$id} 		= number_format(${'liquido'.$id},2,",",".");
+		${'margem'.$id} 		= round($row['liquido'] / $row['valor_total_proposta'] * 100);
 		${'status_job'.$id} 	= $row['status_job'];
 echo " 			<tr>";
 echo "     			<td>".${'tipo_job'.$id}."</td>";
@@ -83,6 +85,7 @@ echo "     			<td>".${'agencia'.$id}." - ".${'cliente'.$id}." - ".${'campanha'.$
 echo "     			<td>".${'n_da_proposta'.$id}."</td>";
 echo "     			<td><strong>R$ ".${'bruto'.$id}."</strong></td>";
 echo "     			<td>R$ ".${'liquido'.$id}."</td>";
+echo "     			<td>".${'margem'.$id}."%</td>";
 echo "     			<td>".${'bv'.$id}."%</td>";
 echo "     			<td>
 						<select name='departamento1'>
@@ -103,14 +106,14 @@ echo "				<script type='text/javascript'>
 					</script>
 				</tr>";
 }
-	$result2 = mysqli_query($link, "SELECT valor_total_proposta AS bruto, SUM(valor_unitario * qtd * (1-(COALESCE(bv,0) + COALESCE(imposto,0))/100)) - COALESCE(SUM(valor_negociado * qtd),0) as liquido FROM jobs WHERE empresa_fornecedor = 'Magneto Fotografia'");
-	// SELECT SUM(liquido) FROM (SELECT SUM(valor_unitario * qtd * (1-(COALESCE(bv,0) + COALESCE(imposto,0))/100)) - COALESCE(SUM(valor_negociado * qtd),0) as liquido FROM jobs WHERE empresa_fornecedor = 'Magneto Fotografia' UNION ALL SELECT SUM(valor_unitario * qtd * COALESCE(bv,0)/100) as liquido FROM jobs WHERE empresa_fornecedor != 'Magneto Fotografia') T1
+	$result2 = mysqli_query($link, "SELECT SUM(bruto) AS bruto, SUM(liquido) AS liquido FROM (SELECT SUM(valor_unitario * qtd * (1-(COALESCE(bv,0) + COALESCE(imposto,0))/100)) as liquido, SUM(valor_unitario * qtd) AS bruto FROM jobs WHERE empresa_fornecedor = 'Magneto Fotografia' UNION ALL SELECT (IF(valor_negociado > 0, SUM(valor_unitario * qtd * (1-(COALESCE(bv,0) + COALESCE(imposto,0))/100)) - COALESCE(SUM(valor_negociado),0), SUM(valor_unitario * qtd) * COALESCE(bv,0)/100)) as liquido, SUM(valor_unitario * qtd) AS bruto FROM jobs WHERE empresa_fornecedor != 'Magneto Fotografia') T1");
 		if (!$result2) {
 		 die("Database query failed: " . mysqli_error());
 }
 	while ($row2 = mysqli_fetch_array($result2)) {
 		$bruto = number_format($row2['bruto'],2,",",".");
 		$liquido = number_format($row2['liquido'],2,",",".");
+		$margem = round($row2['liquido'] / $row2['bruto'] * 100);
 }
 ?>
 		</tbody>
@@ -121,7 +124,7 @@ echo "				<script type='text/javascript'>
  			<th></th>
 			<th><?php echo "R$: $bruto"; ?></th>
  			<th><?php echo "R$: $liquido"; ?></th>
- 			<th></th>
+ 			<th><?php echo "$margem%"; ?></th>
  			<th></th>
 		</tr>
 	</table>
