@@ -15,17 +15,8 @@ include("conecta.php");
 	.set-width {
 	  width: 85px;
 	}
-	#cento_vinte {
-		color: red;
-	}
-	#noventa {
-		color: red;
-	}
-	#sessenta {
-		color: orange;
-	}
-	#em_dia {
-		color: green;
+	.esquerda{
+		margin-left: 100px;
 	}
 	</style>
 <script type='text/javascript' src='http://code.jquery.com/jquery-latest.min.js'></script>
@@ -46,7 +37,7 @@ $(document).ready(function(){
 	$result = mysqli_query($link, "SELECT id, tipo_job, data_job, agencia, cliente, campanha, n_da_proposta, valor_total_proposta, COALESCE(bv,0) AS bv, COALESCE(imposto,0) AS imposto, status_job, SUM(bruto) AS bruto, SUM(liquido) AS liquido FROM (SELECT id, tipo_job, data_job, agencia, cliente, campanha, n_da_proposta, valor_total_proposta, bv, imposto, status_job, SUM(valor_unitario * qtd * (1-(COALESCE(bv,0) + COALESCE(imposto,0))/100)) as liquido, SUM(valor_unitario * qtd) AS bruto FROM jobs WHERE empresa_fornecedor = 'Magneto Fotografia' GROUP BY data_job, cliente, campanha UNION ALL SELECT id, tipo_job, data_job, agencia, cliente, campanha, n_da_proposta, valor_total_proposta, bv, imposto, status_job, (IF(valor_negociado > 0, SUM(valor_unitario * qtd * (1-(COALESCE(bv,0) + COALESCE(imposto,0))/100)) - COALESCE(SUM(valor_negociado),0), SUM(valor_unitario * qtd) * COALESCE(bv,0)/100)) as liquido, SUM(valor_unitario * qtd) AS bruto FROM jobs WHERE empresa_fornecedor != 'Magneto Fotografia' GROUP BY data_job, cliente, campanha) T1 GROUP BY data_job, cliente, campanha ORDER BY data_job DESC");
 		if (!$result) { die("Database query failed: " . mysqli_error()); }
 ?>
-	<table id='resultado' class='compact nowrap stripe hover row-border order-column' cellspacing='0' width='100%'>
+	<table id='resultado' class='compact nowrap stripe hover row-border order-column esquerda' cellspacing='0' width='100%'>
 		<thead>
  			<tr>
      			<th>Tipo</th>
@@ -100,7 +91,7 @@ echo "     			<td>
 echo "				<td><form id='job".$id."' method='post' action='action_job.php' target='resultado".$id."'><input type='hidden' name='id' value='$id'><button type='button' id='editar".$id."'>Editar</button></form></td>";
 echo "				<script type='text/javascript'>
 						document.getElementById('editar".$id."').addEventListener('click', function() {
-							window.open('action_job.php', 'resultado".$id."', 'toolbar=no,scrollbars=no,directories=no,titlebar=yes,resizable=no,location=no,status=no,menubar=no,top=200,left=200,width=1200,height=400');
+							window.open('action_job.php', 'resultado".$id."', 'toolbar=no,scrollbars=no,directories=no,titlebar=yes,resizable=no,location=no,status=no,menubar=no,top=200,left=200,width=1400,height=700');
 							document.getElementById('job".$id."').submit();
 						});
 					</script>

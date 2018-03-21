@@ -9,10 +9,6 @@ if(!session_id()) {
 	$campanha = $_SESSION['campanha'];
 	$tipo_job = $_SESSION['tipo_job'];
 	$data_job = $_SESSION['data_job'];
-	// $local_job = $_SESSION['local_job'];
-	// $status_job = $_SESSION['status_job'];
-	// $data_recebimento = $_SESSION['data_recebimento'];
-	// $clicado_por = $_SESSION['clicado_por'];
 	$n_proposta = $_SESSION['n_proposta'];
 	$data_proposta = $_SESSION['data_proposta'];
 	$n_de_itens = $_SESSION['n_de_itens'];
@@ -20,7 +16,6 @@ if(!session_id()) {
 	$valor_total_job_format = number_format($valor_total_job,2,",",".");
 	$bv = $_SESSION['bv'];
 	$imposto = $_SESSION['imposto'];
-	// $previsao_pagamento = $_SESSION['previsao_pagamento'];
 ?>	
 	<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
 	<html xmlns='http://www.w3.org/1999/xhtml' lang='pt-BR'>

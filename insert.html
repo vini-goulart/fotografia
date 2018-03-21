@@ -38,10 +38,6 @@
 		<th scope='col'>Campanha</th>
 		
 		<th scope='col'>Data do Job</th>
-		<!-- <th scope='col'>Local</th> -->
-		<!-- <th scope='col'>Status</th> -->
-		<!-- <th scope='col'>Data Recebimento</th> -->
-		<!-- <th scope='col'>Clicado por</th> -->
 		<th scope='col'>Operação</th>
 	</tr>
 	<tr>
@@ -57,48 +53,7 @@
 		<td><input type='text' name='cliente' size='20' placeholder='Ex.: Ministério da Saúde' required /></td>
 		<td><input type='text' name='campanha' size='20' placeholder='Ex.: Aids 2018' required /></td>
 		<td><input type='date' name='data_job' size='13' /></td>
-		<!-- <td>
-		<select name='local_job'>
-			<option disabled selected> - Selecionar - </option>
-			<option value='Estúdio Magneto'>Estúdio Magneto</option>
-			<option value='Estúdio Externo'>Estúdio Externo</option>
-			<option value='Locação Externa'>Locação Externa</option>
-			<option value='Viagem'>Viagem</option>
-			<option value='Vários'>Vários</option>
-	    </select>
-	    </td>
-	    <td>
-		<select name='status_job' id='status_job' onChange='myNewFunction(this);' >
-			<option disabled selected> - Selecionar - </option>
-			<option value='Orçamento Enviado'>Orçamento Enviado</option>
-			<option value='Orçamento Aprovado'>Orçamento Aprovado</option>
-			<option value='Entregue'>Entregue</option>
-			<option value='Faturado'>Faturado</option>
-			<option value='Recebido'>Recebido</option>
-	    </select>
-	    </td>
-	    <td><input type='date' id='data_recebimento' name='data_recebimento' size='13' placeholder='YYYY-MM-DD' disabled='true' /></td>
-	    <script>
-	    	function myNewFunction(element) {
-			    var sel = document.getElementById('status_job');
-				var text= sel.options[sel.selectedIndex].text;
-				if (text == 'Recebido') {
-					$('#data_recebimento').prop('disabled', false);
-				}
-			}
-		</script>
-	    <td>
-		<select name='clicado_por'>
-			<option disabled selected> - Selecionar - </option>
-			<option value='Vini Goulart'>Vini Goulart</option>
-			<option value='Felipe Barreira'>Felipe Barreira</option>
-			<option value='Assistente'>Assistente</option>
-			<option value='Daniel Madsen'>Daniel Madsen</option>
-			<option value='Hugo Santarém'>Hugo Santarém</option>
-			<option value='Outros'>Outros</option>
-	    </select>
-	    </td> -->
-	    <td><button type='submit' name='incluir_cache'>Incluir</button></td>
+		<td><button type='submit' name='incluir_cache'>Incluir</button></td>
 	</tr>
 	<tr>
 		<th scope='col'>Nº da Proposta</th>
@@ -106,9 +61,7 @@
 		<th scope='col'>Qtd. Itens da Proposta</th>
 		<th scope='col'>Valor Total</th>
 		<th scope='col'>BV</th>
-		<!-- <th scope='col'>Com Nota?</th> -->
 		<th scope='col'>Imposto</th>
-		<!-- <th scope='col'>Previsão</th> -->
     </tr>
 	<tr>
 		<td><input type='text' name='n_proposta' placeholder='Ex.: MX0000000' /></td>
@@ -116,21 +69,7 @@
 	    <td><input type='number' name='n_de_itens' min='1' placeholder='0' /></td>
 	    <td>R$: <input type='text' name='valor_total_job' size='10' placeholder='0,00' /></td>
 		<td><input type='number' name='bv' maxlength='2' size='20' placeholder='0' />%</td>
-		<!-- <td>
-			<input name='emitiu_nota' id='com_nota' type='radio' value=1 />  Sim </BR>
-			<input name='emitiu_nota' id='sem_nota' type='radio' value=0 checked='checked'/>  Não
-		</td> -->
-		<td><input type='number' name='imposto' id='imposto' size='20' maxlength='2' placeholder='0' />%</td>
-		<!-- <td><input type='number' id='previsao_pagamento' name='previsao_pagamento' min='1' max='90' placeholder='0' /> dias</td> -->
-<!-- 		<script>
-			$('#sem_nota').change(function() {
-			  $('#imposto').prop('disabled', true);
-			});
-			$('#com_nota').change(function() {
-		  	  $('#imposto').prop('disabled', false);
-			});
-		</script> -->
-	    
+		<td><input type='number' name='imposto' id='imposto' size='20' maxlength='2' placeholder='0' />%</td>	    
 	</tr>
 </table>
 </form>
